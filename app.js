@@ -1,21 +1,25 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
-var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const config = require("./config");
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var companyRouter = require("./routes/companyRouter");
+var orderRouter = require("./routes/orderRouter");
+var setupRouter = require("./routes/setupRouter");
+const uploadRouter = require('./routes/uploadRouter');
 
 const mongoose = require("mongoose");
 mongoose.Promise = require("bluebird");
 
 const Companies = require("./models/companies");
-const Orders = require("./models/orders");
+const Setup = require("./models/setup");
+const Users = require("./models/user");
 
 //Connection URL
-const url = "mongodb://localhost:27017/RepairIT";
+const url = config.mongoUrl;
 const connect = mongoose.connect(url, {
     /*options*/
 });
@@ -35,12 +39,15 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/companies', companyRouter);
+app.use('/orders', orderRouter);
+app.use('/setup', setupRouter);
+app.use('/imageUpload', uploadRouter);
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

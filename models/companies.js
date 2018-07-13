@@ -134,13 +134,22 @@ var companySchema = new Schema({
         required: true,
         unique: true
     },
-    logo: {
+    code: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    password: {
         type: String,
         required: true
     },
+    logo: {
+        type: String,
+        default: '[default_logo]'
+    },
     colors: {
         type: Array,
-        required: true
+        default: ['#006A5C', '#7C0044', '#0053A7']
     },
     email: {
         type: String,
@@ -157,10 +166,6 @@ var companySchema = new Schema({
     description: {
         type: String,
         default: ''
-    },
-    password: {
-        type: String,
-        required: true
     },
     street: {
         type: String,
@@ -197,6 +202,10 @@ var companySchema = new Schema({
     requiredPhotos: {
         type: Array,
         required: true
+    },
+    licenses: {
+        type: Number,
+        default: 5
     },
     orders: [orderSchema]
 }, {

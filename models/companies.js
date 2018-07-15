@@ -18,6 +18,24 @@ var imageSchema = new Schema({
     timestamps: true
 })
 
+var deviceSchema = new Schema({
+    deviceModel: {
+        type: String
+    },
+    deviceOS: {
+        type: String
+    },
+    deviceType: {
+        type: String
+    },
+    deviceUUID: {
+        type: String
+    },
+    deviceScreen: {
+        type: String
+    }
+})
+
 var orderSchema = new Schema({
     orderNumber: {
         type: String,
@@ -180,7 +198,7 @@ var companySchema = new Schema({
         required: true
     },
     zip: {
-        type: Number,
+        type: String,
         required: true
     },
     issues: {
@@ -207,6 +225,7 @@ var companySchema = new Schema({
         type: Number,
         default: 5
     },
+    devices: [deviceSchema],
     orders: [orderSchema]
 }, {
     timestamps: true

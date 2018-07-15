@@ -5,7 +5,7 @@ var logger = require('morgan');
 const config = require("./config");
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var AssociatesRouter = require('./routes/associateRouter');
 var companyRouter = require("./routes/companyRouter");
 var orderRouter = require("./routes/orderRouter");
 var setupRouter = require("./routes/setupRouter");
@@ -15,8 +15,7 @@ const mongoose = require("mongoose");
 mongoose.Promise = require("bluebird");
 
 const Companies = require("./models/companies");
-const Setup = require("./models/setup");
-const Users = require("./models/user");
+const Associates = require("./models/associates");
 
 //Connection URL
 const url = config.mongoUrl;
@@ -41,7 +40,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/associates', AssociatesRouter);
 app.use('/companies', companyRouter);
 app.use('/orders', orderRouter);
 app.use('/setup', setupRouter);

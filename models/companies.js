@@ -5,7 +5,7 @@ require("mongoose-currency").loadType(mongoose);
 var Currency = mongoose.Types.Currency;
 
 var imageSchema = new Schema({
-    asset: {
+    assetpath: {
         type: String
     },
     caption: {
@@ -37,7 +37,7 @@ var deviceSchema = new Schema({
 })
 
 var orderSchema = new Schema({
-    orderNumber: {
+    orderId: {
         type: String,
         required: true
     },

@@ -33,7 +33,7 @@ orderRouter.route("/:companyId")
                         .then((company) => {
                             res.statusCode = 200;
                             res.setHeader("Content-Type", "application/json");
-                            res.json(company);
+                            res.json(company.orders[company.orders.length - 1]);
                         }, (err) => next(err));
                 } else {
                     err = new Error("Company " + req.params.companyId + " not found");
@@ -103,6 +103,12 @@ orderRouter.route("/:companyId/:orderId")
                     if (req.body.shipPaid) {
                         company.orders.id(req.params.orderId).shipPaid = req.body.shipPaid;
                     }
+                    if (req.body.emailed) {
+                        company.orders.id(req.params.orderId).emailed = req.body.emailed;
+                    }
+                    if (req.body.emailedDateTime) {
+                        company.orders.id(req.params.orderId).emailedDateTime = req.body.emailedDateTime;
+                    }
                     if (req.body.uploaded) {
                         company.orders.id(req.params.orderId).uploaded = req.body.uploaded;
                     }
@@ -126,6 +132,9 @@ orderRouter.route("/:companyId/:orderId")
                     }
                     if (req.body.deliveredDateTime) {
                         company.orders.id(req.params.orderId).deliveredDateTime = req.body.deliveredDateTime;
+                    }
+                    if (req.body.editedDateTime) {
+                        company.orders.id(req.params.orderId).editedDateTime = req.body.editedDateTime;
                     }
                     company.save()
                         .then((company) => {

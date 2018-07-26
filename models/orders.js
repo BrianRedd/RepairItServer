@@ -102,6 +102,9 @@ var orderSchema = new Schema({
         type: String,
         default: ''
     },
+    emailed: {
+        type: Boolean
+    },
     uploaded: {
         type: Boolean
     },
@@ -130,6 +133,9 @@ var orderSchema = new Schema({
         type: Boolean
     },
     deliveredDateTime: {
+        type: Date
+    },
+    editedDateTime: {
         type: Date
     }
 }, {

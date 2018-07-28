@@ -73,10 +73,13 @@ orderRouter.route("/:companyId/:orderId")
     .get((req, res, next) => {
         Companies.findById(req.params.companyId)
             .then((company) => {
-                if (company !== null && company.orders.id(req.params.orderId) !== null) {
+                let selectedOrder = company.orders.filter((order) => {
+                    return order.orderId === req.params.orderId;
+                });
+                if (company !== null && selectedOrder.length > 0) {
                     res.statusCode = 200;
                     res.setHeader("Content-Type", "application/json");
-                    res.json(company.orders.id(req.params.orderId));
+                    res.json(selectedOrder[0]);
                 } else if (company === null) {
                     err = new Error("company " + req.params.companyId + " not found");
                     err.status = 404;
@@ -96,51 +99,55 @@ orderRouter.route("/:companyId/:orderId")
     .put((req, res, next) => {
         Companies.findById(req.params.companyId)
             .then((company) => {
-                if (company !== null && company.orders.id(req.params.orderId) !== null) {
+                let selectedOrder = company.orders.filter((order) => {
+                    return order.orderId === req.params.orderId;
+                });
+                let id = selectedOrder[0]._id;
+                if (company !== null && selectedOrder.length > 0) {
                     if (req.body.repairPaid) {
-                        company.orders.id(req.params.orderId).repairPaid = req.body.repairPaid;
+                        company.orders.id(id).repairPaid = req.body.repairPaid;
                     }
                     if (req.body.shipPaid) {
-                        company.orders.id(req.params.orderId).shipPaid = req.body.shipPaid;
+                        company.orders.id(id).shipPaid = req.body.shipPaid;
                     }
                     if (req.body.emailed) {
-                        company.orders.id(req.params.orderId).emailed = req.body.emailed;
+                        company.orders.id(id).emailed = req.body.emailed;
                     }
                     if (req.body.emailedDateTime) {
-                        company.orders.id(req.params.orderId).emailedDateTime = req.body.emailedDateTime;
+                        company.orders.id(id).emailedDateTime = req.body.emailedDateTime;
                     }
                     if (req.body.uploaded) {
-                        company.orders.id(req.params.orderId).uploaded = req.body.uploaded;
+                        company.orders.id(id).uploaded = req.body.uploaded;
                     }
                     if (req.body.uploadedDateTime) {
-                        company.orders.id(req.params.orderId).uploadedDateTime = req.body.uploadedDateTime;
+                        company.orders.id(id).uploadedDateTime = req.body.uploadedDateTime;
                     }
                     if (req.body.shippedOffsite) {
-                        company.orders.id(req.params.orderId).shippedOffsite = req.body.shippedOffsite;
+                        company.orders.id(id).shippedOffsite = req.body.shippedOffsite;
                     }
                     if (req.body.shippedDateTime) {
-                        company.orders.id(req.params.orderId).shippedDateTime = req.body.shippedDateTime;
+                        company.orders.id(id).shippedDateTime = req.body.shippedDateTime;
                     }
                     if (req.body.completed) {
-                        company.orders.id(req.params.orderId).completed = req.body.completed;
+                        company.orders.id(id).completed = req.body.completed;
                     }
                     if (req.body.completedDateTime) {
-                        company.orders.id(req.params.orderId).completedDateTime = req.body.completedDateTime;
+                        company.orders.id(id).completedDateTime = req.body.completedDateTime;
                     }
                     if (req.body.delivered) {
-                        company.orders.id(req.params.orderId).delivered = req.body.delivered;
+                        company.orders.id(id).delivered = req.body.delivered;
                     }
                     if (req.body.deliveredDateTime) {
-                        company.orders.id(req.params.orderId).deliveredDateTime = req.body.deliveredDateTime;
+                        company.orders.id(id).deliveredDateTime = req.body.deliveredDateTime;
                     }
                     if (req.body.editedDateTime) {
-                        company.orders.id(req.params.orderId).editedDateTime = req.body.editedDateTime;
+                        company.orders.id(id).editedDateTime = req.body.editedDateTime;
                     }
                     company.save()
                         .then((company) => {
                             res.statusCode = 200;
                             res.setHeader("Content-Type", "application/json");
-                            res.json(company.orders.id(req.params.orderId));
+                            res.json(selectedOrder[0]);
                         }, (err) => next(err));
                 } else if (company === null) {
                     err = new Error("company " + req.params.companyId + " not found");

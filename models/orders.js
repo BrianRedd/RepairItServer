@@ -6,16 +6,13 @@ var Currency = mongoose.Types.Currency;
 
 
 var imageSchema = new Schema({
-    localpath: {
-        type: String
-    },
     filename: {
         type: String
     },
     caption: {
         type: String
     },
-    valid: {
+    uploaded: {
         type: Boolean
     }
 }, {
@@ -104,6 +101,9 @@ var orderSchema = new Schema({
     },
     emailed: {
         type: Boolean
+    },
+    emailedDateTime: {
+        type: Date
     },
     uploaded: {
         type: Boolean

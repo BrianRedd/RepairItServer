@@ -96,17 +96,23 @@ companyRouter.route("/:companyId/devices")
         Companies.findById(req.params.companyId)
             .then((company) => {
                 if (company !== null) {
-                    //TODO: Look into checking duplicate device UUIDs
-                    company.devices.push(req.body);
-                    company.save()
-                        .then((company) => {
-                            Companies.findById(company._id)
-                                .then((company) => {
-                                    res.statusCode = 200;
-                                    res.setHeader("Content-Type", "application/json");
-                                    res.json(company.devices[company.devices.length - 1]);
-                                })
-                        })
+                    let idx = company.devices.map(dev => dev.deviceUUID).indexOf(req.body.deviceUUID);
+                    if (idx === -1) {
+                        company.devices.push(req.body);
+                        company.save()
+                            .then((company) => {
+                                Companies.findById(company._id)
+                                    .then((company) => {
+                                        res.statusCode = 200;
+                                        res.setHeader("Content-Type", "application/json");
+                                        res.json(company.devices[company.devices.length - 1]);
+                                    })
+                            })
+                    } else {
+                        res.statusCode = 200;
+                        res.setHeader("Content-Type", "application/json");
+                        res.json(company.devices[idx]);
+                    }
                 } else {
                     err = new Error("Company " + req.params.companyId + " not found");
                     err.status = 404;

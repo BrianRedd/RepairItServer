@@ -29,6 +29,7 @@ orderRouter.route("/:companyId")
             .then((company) => {
                 if (company !== null) {
                     company.orders.push(req.body);
+                    company.currentOrderNumber++;
                     company.save()
                         .then((company) => {
                             res.statusCode = 200;
@@ -53,6 +54,10 @@ orderRouter.route("/:companyId")
                 if (company !== null) {
                     for (var i = (company.orders.length - 1); i >= 0; i--) {
                         company.orders.id(company.orders[i]._id).remove();
+                        company.currentOrderNumber--;
+                        if (company.currentOrderNumber < company.initialOrderNumber) {
+                            company.currentOrderNumber = company.initialOrderNumber
+                        }
                     }
                     company.save()
                         .then((company) => {

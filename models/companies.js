@@ -87,6 +87,10 @@ var companySchema = new Schema({
         type: Number,
         default: 1000
     },
+    currentOrderNumber: {
+        type: Number,
+        default: 1000
+    },
     productType: {
         type: String,
         required: true

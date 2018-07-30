@@ -4,7 +4,7 @@ const multer = require("multer");
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "public/images");
+        cb(null, "public/images/" + req.headers.companycode);
     },
     filename: (req, file, cb) => {
         cb(null, file.originalname);
@@ -12,8 +12,8 @@ const storage = multer.diskStorage({
 });
 
 const imageFileFilter = (req, file, cb) => {
-    if (!file.originalname.match(/\.(png)$/)) {
-        return cb(new Error("You can only upload PNG files!"), false);
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+        return cb(new Error("You can only upload image files!"), false);
     }
     cb(null, true);
 }
